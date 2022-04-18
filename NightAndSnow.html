@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>❄Snowy Night</title>
+    <style>
+        /*背景图片*/
+        body{
+            background-image: url("E:/AJNU/HTML/SnowNight/full-moon-g7dca586a9_1920.jpg");
+            background-size: cover;
+        }
+        /*div按钮*/
+        #div1,#div2,#div3{
+            width: 40px;
+            height: 20px;
+            border: 1px solid darkblue;
+            border-radius: 3px;
+            background-color:rgb(20, 19, 27);
+            color: aliceblue;
+            text-align: center;
+            font-family: '微软雅黑';
+            font-size: small;
+            margin:2px;
+        }
+        #div1:hover,#div2:hover,#div3:hover{
+            border: 1px solid aliceblue;
+            cursor: pointer;
+        }
+    </style>
+    <script>
+       window.onload=function(){
+           //开始按钮--雪花飞舞
+            var oBtnStart=document.getElementById("div1");
+            var timer=null;
+            oBtnStart.onclick=function(){
+                //clearInterval(timer);
+                timer=setInterval(starFly,400);
+            };
+            function starFly(){
+                var allSnow=document.getElementsByTagName("p");
+                for(var i=0;i<allSnow.length;i++){
+                    var randomTop=Math.random()*6;//每次移动距离在6px以内
+                    allSnow[i].style.top=allSnow[i].offsetTop+randomTop+"px";
+                    //当某个雪花位置正好可以被200整除时，新增一片雪花
+                    if(allSnow[i].offsetTop%200==0){
+                        createOneSnow();
+                    }
+                    //当某个雪花的位置超出浏览器时，将该雪花删除，新增一片雪花
+                    if(allSnow[i].offsetTop>window.innerHeight){
+                        allSnow[i].remove();
+                        createOneSnow();
+                    }
+                }
+            }
+           //新增按钮-新增雪花，位置随机
+           var oBtnNew=document.getElementById("div2");
+           oBtnNew.addEventListener("click",createSnow,false);
+           function createSnow(){
+               function createOneSnow(){
+                   var minSize=5;
+                   var maxSize=20;
+                   var randomOpacity=0.5+Math.random()*0.5;
+                   var leftX=Math.random()*window.innerWidth;
+                   var topY=Math.random()*window.innerHeight;
+                   var snowDiv=document.createElement("p");
+                   snowDiv.style.fontSize=minSize+Math.random()*maxSize+"px";//随机大小
+                   snowDiv.style.opacity=randomOpacity;//随机不透明度
+                   snowDiv.style.position="fixed";
+                   snowDiv.style.left=leftX+"px";
+                   snowDiv.style.top=topY+"px";
+                   snowDiv.innerHTML='<span style="color:white;">❄</span>';
+                   document.body.appendChild(snowDiv);
+                   }
+                  for(var i=0;i<=20;i++){
+                       createOneSnow();
+                    }
+                
+           }
+            //删除所有雪花
+            var oBtnDelete=document.getElementById("div3");
+            oBtnDelete.onclick=function(){
+                var allSnow=document.getElementsByTagName("p");
+                var snowLength=allSnow.length;
+                for(var i=0;i<snowLength;i++){
+                    allSnow[0].remove();
+                }
+        }
+       }
+    </script>
+</head>
+<body>
+    <!--音频-->
+    <audio controls="controls">
+        <source src="E:/AJNU/HTML/SnowNight/Julien Marchal - Insight XXIII.mp3" type="audio/mp3">
+    </audio>
+    <!--按钮-->
+    <div id="div1">开始</div>
+    <div id="div2">新增</div>
+    <div id="div3">删除</div>
+</body>
+</html>
